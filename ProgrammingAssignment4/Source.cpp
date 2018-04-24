@@ -4,7 +4,7 @@
 
 using namespace std;
 
-const int LISTSIZE = 4;
+const int LISTSIZE = 10;
 const int STRINGSIZE = 30;
 
 typedef char STRING30[STRINGSIZE];
@@ -13,14 +13,14 @@ typedef STRING30 LISTNAMES[LISTSIZE];
 int main()
 {
 	LISTNAMES firstname;
-	char lastname[LISTSIZE];
+	LISTNAMES lastname;
 	int daysofrental[LISTSIZE];
 	double balancedue[LISTSIZE];
 
 	int i = 0;
 
 	ifstream in;
-	in.open("C:\\users\\aripi\\Documents\\ProjectTextFiles\\invoice1_test1.txt");
+	in.open("C:\\users\\aripi\\Documents\\invoice1_test1.txt");
 
 	if (in.is_open())
 	{
