@@ -51,6 +51,10 @@ int main()
 	STRING30 minnames;
 	STRING30 tempnames;
 
+	int rentalcount;
+	int rentalcountcout;
+
+
 	double total;
 
 
@@ -118,6 +122,9 @@ int main()
 		total += balancedue[idx];
 	}
 
+	rentalcount = 0;
+	rentalcountcout = 0;
+
 	//Output
 	//Sorted
 
@@ -150,22 +157,73 @@ int main()
 
 	outfile << heading[0] << " " << heading[1] << " " << heading[2] << " " << heading[3] << endl;
 
+	for (int idx = 0; idx = LISTSIZE; idx++)
+	{
+		outfile << lastname[idx] << " " << firstname[idx] << " " << daysofrental[idx] << " " << balancedue[idx] << endl;
+	}
+
+	outfile << endl << endl;
+	outfile << "Total Balance Due: " << total << endl;
+
+	outfile << "Customer(s) with the Highest Number of Rental Days: ";
+	
+	highestrental = daysofrental[0];
+
+	for (int idx = 0; idx = LISTSIZE; idx++)
+	{
+		if (daysofrental[idx] > highestrental)
+		{
+			highestrental = daysofrental[idx];
+		}
+	}
+
 	for (int idx = 0; idx < LISTSIZE; idx++)
 	{
-		cout << left << setw(10);
-		cout << lastname[idx];
-
-		cout << setw(10);
-		cout << firstname[idx];
-
-		cout << setw(10);
-		cout << daysofrental[idx];
-
-		cout << setw(10);
-		cout << balancedue[idx];
-
-		cout << endl;
+		if (daysofrental[idx] == highestrental)
+			rentalcount++;
 	}
+
+	for (int idx = 0; idx < LISTSIZE; idx++)
+	{
+		if (daysofrental[idx] == highestrental)
+		{
+			if (rentalcountcout < rentalcount)
+			{
+				outfile << lastname[idx] << " " << firstname[idx] << ", ";
+			}
+			else
+			{
+				outfile << lastname[idx] << " " << firstname[idx];
+			}
+			rentalcountcout++;
+		}
+	}
+
+	outfile << endl;
+
+	outfile << "Customer(s) with the Highest Balance Due: ";
+
+	highestbalance = balancedue[0];
+
+	for (int idx = 0; idx < LISTSIZE; idx++)
+	{
+		if (balancedue[idx] > highestbalance)
+		{
+			highestbalance = balancedue[idx];
+		}
+	}
+
+	for (int idx = 0; idx < LISTSIZE; idx++)
+	{
+		if (balancedue[idx] == highestbalance)
+		{
+			outfile << lastname[idx] << " " << firstname[idx] << ", ";
+		}
+	}
+	outfile << endl;
+
+	outfile.close();
+	cout << endl << endl;
 	
 	system("PAUSE");
 	return 0;
