@@ -1,6 +1,14 @@
+//Name: Ariana Tyson
+//Class: CIS-165 Introduction to Programming
+//Professor Luy
+//Date: 5/2/2018
+
 #include<iostream>
 #include<fstream>
+#include<string.h>
 #include<iomanip>
+#include<cmath>
+#include<stdlib.h>
 
 using namespace std;
 
@@ -16,13 +24,14 @@ int main()
 
 	LISTNAMES firstname;
 	LISTNAMES lastname;
+
 	TEMPNAME minimumperson;
-	
+
 	int daysofrental[LISTSIZE];
 	double balancedue[LISTSIZE];
 
-	int minidx;
 	int i = 0;
+	int minidx;
 
 	ifstream in;
 	in.open("C:\\users\\aripi\\Documents\\invoice1_test1.txt");
@@ -39,14 +48,33 @@ int main()
 	else
 		cout << "File failed to open" << endl;
 
-	//Unsorted Names
+	//Sorting
 	for (int idx = 0; idx < LISTSIZE; idx++)
 	{
-		cout << setw(10);
-		cout << firstname[idx];
+		minidx = idx;
+		strcpy(minimumperson[0], lastname[idx]);
+		for (int j = idx; j < LISTSIZE; j++)
+		{
+			int match = strcmp(lastname[j], minimumperson[0]);
+			if (match < 0)
+			{
+				minidx = j;
+				strcpy(minimumperson[0], lastname[j]);
+			}
+		}
+		strcpy(minimumperson[0], lastname[minidx]);
+		strcpy(lastname[minidx], lastname[idx]);
+		strcpy(lastname[idx], minimumperson[0]);
+	}
+
+	//Sorted
+	for (int idx = 0; idx < LISTSIZE; idx++)
+	{
+		cout << left << setw(10);
+		cout << lastname[idx];
 
 		cout << setw(10);
-		cout << lastname[idx];
+		cout << firstname[idx];
 
 		cout << setw(10);
 		cout << daysofrental[idx];
@@ -56,38 +84,7 @@ int main()
 
 		cout << endl;
 	}
-
-	//Sorted Names
-	for (int idx = 0; idx < LISTSIZE; idx++)
-	{
-		minidx = i;
-		strcpy(minimumperson[0], firstname[idx]);
-		for (int j = i; j < 5; j++)
-		{
-			int match = strcmp(firstname[j], minimumperson[0]);
-			if (match < 0)
-			{
-				minidx = j;
-				strcpy(minimumperson[0], firstname[j]);
-			}
-
-		}
-
-		strcpy(minimumperson[0], firstname[minidx]);
-		strcpy(firstname[minidx], firstname[idx]);
-		strcpy(firstname[idx], minimumperson[0]);
-
-	}
-
-	//Sorted
-	for (int idx = 0; idx < LISTSIZE; idx++)
-	{
-		cout << setw(10) << firstname[idx];
-		cout << setw(10) << lastname[idx];
-		cout << setw(10) << daysofrental[idx];
-		cout << setw(10) << balancedue[idx];
-	}
-
+	
 	system("PAUSE");
 	return 0;
 }
