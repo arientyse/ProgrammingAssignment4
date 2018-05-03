@@ -113,7 +113,43 @@ int main()
 
 	}
 
+	for (int idx = 0; idx < LISTSIZE; idx++)
+	{
+		total += balancedue[idx];
+	}
+
+	//Output
 	//Sorted
+
+	system ("cls");
+	cout << "Output to Console (1) or Disk File (2)? :      ";
+	cin >> choice;
+
+	if (choice == 1)
+	{
+		system("cls");
+		outfile.open("con");
+	}
+	else
+	{
+		cout << "Which Drive: A, B, C, D, E, or F?       ";
+		cin >> drive;
+		
+		strcpy(disk_file, drive);
+		strcat(disk_file, ":");
+
+		cout << "Enter a results file name:     ";
+		cin >> file;
+
+		strcat(disk_file, file);
+		strcat(disk_file, ".txt");
+
+		outfile.open(disk_file);
+	}
+	outfile << setiosflags(ios::showpoint | ios::fixed) << setprecision(2);
+
+	outfile << heading[0] << " " << heading[1] << " " << heading[2] << " " << heading[3] << endl;
+
 	for (int idx = 0; idx < LISTSIZE; idx++)
 	{
 		cout << left << setw(10);
