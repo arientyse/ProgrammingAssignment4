@@ -3,68 +3,114 @@
 //Professor Luy
 //Date: 5/2/2018
 
-#include<iostream>
 #include<fstream>
+#include<iostream>
 #include<string.h>
 #include<iomanip>
 #include<cmath>
 #include<stdlib.h>
 
-using namespace std;
-
 const int LISTSIZE = 10;
 const int STRINGSIZE = 30;
+const int HEADSIZE = 4;
 
 typedef char STRING30[STRINGSIZE];
 typedef STRING30 LISTNAMES[LISTSIZE];
-typedef STRING30 TEMPNAME[1];
+typedef STRING30 HEADINGS[HEADSIZE];
+
+using namespace std;
+
+
 
 int main()
 {
 
+	int choice;
+
+	char drive[2], disk_file[15], file[9];
+
+	
+	ofstream outfile;
+
+	system("cls");
+
+	HEADINGS heading;
+
 	LISTNAMES firstname;
 	LISTNAMES lastname;
-
-	TEMPNAME minimumperson;
-
 	int daysofrental[LISTSIZE];
 	double balancedue[LISTSIZE];
 
 	int i = 0;
 	int minidx;
+	
+	double tempnum;
+	double highestbalance;
+	int highestrental;
 
-	ifstream in;
-	in.open("C:\\users\\aripi\\Documents\\invoice1_test1.txt");
+	STRING30 minnames;
+	STRING30 tempnames;
 
-	if (in.is_open())
+	double total;
+
+
+
+	//Input from File
+	ifstream infile;
+
+	infile.open("C:\\users\\aripi\\Documents\\invoice1_test1.txt");
+
+	if (infile.is_open())
 	{
-		while (!in.eof())
+		infile >> heading[0] >> heading[1] >> heading[2] >> heading[3];
+		while (!infile.eof())
 		{
-			in >> lastname[i] >> firstname[i] >> daysofrental[i] >> balancedue[i];
+			infile >> lastname[i] >> firstname[i] >> daysofrental[i] >> balancedue[i];
 			i++;
 		}
-		in.close();
+		infile.close();
 	}
 	else
 		cout << "File failed to open" << endl;
 
-	//Sorting
+
+	//Processing
+	//Sorting the Information
+
 	for (int idx = 0; idx < LISTSIZE; idx++)
 	{
 		minidx = idx;
-		strcpy(minimumperson[0], lastname[idx]);
+		strcpy(minnames, lastname[idx]);
+		
 		for (int j = idx; j < LISTSIZE; j++)
 		{
-			int match = strcmp(lastname[j], minimumperson[0]);
-			if (match < 0)
+			if (strcmp(lastname[j], minnames) == -1)
 			{
 				minidx = j;
-				strcpy(minimumperson[0], lastname[j]);
+				strcpy(minnames, lastname[j]);
 			}
 		}
-		strcpy(minimumperson[0], lastname[minidx]);
-		strcpy(lastname[minidx], lastname[idx]);
-		strcpy(lastname[idx], minimumperson[0]);
+
+		//Last Names
+		strcpy(tempnames, lastname[idx]);
+		strcpy(lastname[idx], minnames);
+		strcpy(lastname[minidx], tempnames);
+
+		//First Names
+		strcpy(tempnames, firstname[idx]);
+		strcpy(firstname[idx], firstname[minidx]);
+		strcpy(firstname[minidx], tempnames);
+
+		//Days of Rental
+		tempnum = daysofrental[idx];
+		daysofrental[idx] = daysofrental[minidx];
+		daysofrental[minidx] = tempnum;
+
+		//Balance Due
+		tempnum = balancedue[idx];
+		balancedue[idx] = balancedue[minidx];
+		balancedue[minidx] = tempnum;
+
 	}
 
 	//Sorted
