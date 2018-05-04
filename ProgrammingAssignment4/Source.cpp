@@ -54,7 +54,6 @@ int main()
 	int rentalcount;
 	int rentalcountcout;
 
-
 	double total;
 
 
@@ -119,7 +118,7 @@ int main()
 
 	for (int idx = 0; idx < LISTSIZE; idx++)
 	{
-		total += balancedue[idx];
+		total+= balancedue[idx];
 	}
 
 	rentalcount = 0;
@@ -155,6 +154,7 @@ int main()
 	}
 	outfile << setiosflags(ios::showpoint | ios::fixed) << setprecision(2);
 
+	
 	outfile << heading[0] << " " << heading[1] << " " << heading[2] << " " << heading[3] << endl;
 
 	for (int idx = 0; idx = LISTSIZE; idx++)
