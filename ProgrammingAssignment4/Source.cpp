@@ -1,18 +1,18 @@
-//Name: Ariana Tyson
-//Class: CIS-165 Introduction to Programming
-//Professor Luy
-//Date: 5/2/2018
+// Name: Ariana Tyson
+// Course: CIS-165 Introduction to Programming
+// Date Started: May 2, 2018
+// Professor Luy
 
-#include<fstream>
-#include<iostream>
-#include<string.h>
-#include<iomanip>
-#include<cmath>
-#include<stdlib.h>
+#include <fstream>
+#include <iostream>
+#include <iomanip>
+#include <string.h>
+#include <cmath>
+#include <stdlib.h>
 
-const int LISTSIZE = 10;
-const int STRINGSIZE = 30;
-const int HEADSIZE = 4;
+int const STRINGSIZE = 30;
+int const LISTSIZE = 10;
+int const HEADSIZE = 4;
 
 typedef char STRING30[STRINGSIZE];
 typedef STRING30 LISTNAMES[LISTSIZE];
@@ -20,89 +20,85 @@ typedef STRING30 HEADINGS[HEADSIZE];
 
 using namespace std;
 
-
-
 int main()
 {
 
 	int choice;
 
 	char drive[2], disk_file[15], file[9];
-
-	
 	ofstream outfile;
 
-	system("cls");
+	ifstream infile;
 
-	HEADINGS heading;
+	int minidx;
 
 	LISTNAMES firstname;
 	LISTNAMES lastname;
 	int daysofrental[LISTSIZE];
 	double balancedue[LISTSIZE];
 
-	int i = 0;
-	int minidx;
-	
-	double tempnum;
-	double highestbalance;
 	int highestrental;
+	double highbalance;
 
-	STRING30 minnames;
-	STRING30 tempnames;
-
-	int rentalcount;
-	int rentalcountcout;
+	double tempnum;
+	STRING30 minname;
+	STRING30 tempname;
 
 	double total;
 
+	int rentalcount = 0;
+	int rentalcountcout = 0;
+
+	HEADINGS heading;
 
 
 	//Input from File
-	ifstream infile;
+	system("cls");
 
-	infile.open("C:\\users\\aripi\\Documents\\invoice1_test1.txt");
-
+	infile.open("invoice2_test2.txt");
 	if (infile.is_open())
 	{
 		infile >> heading[0] >> heading[1] >> heading[2] >> heading[3];
+		int i = 0;
+
 		while (!infile.eof())
 		{
-			infile >> lastname[i] >> firstname[i] >> daysofrental[i] >> balancedue[i];
+			infile >> lastname[i];
+			infile >> firstname[i];
+			infile >> daysofrental[i];
+			infile >> balancedue[i];
 			i++;
 		}
 		infile.close();
 	}
 	else
-		cout << "File failed to open" << endl;
+		cout << "File failed to open." << endl;
 
-
-	//Processing
-	//Sorting the Information
-
+	//Process
+	//Sorting of Information
 	for (int idx = 0; idx < LISTSIZE; idx++)
 	{
 		minidx = idx;
-		strcpy(minnames, lastname[idx]);
-		
+		strcpy(minname, lastname[idx]);
+
 		for (int j = idx; j < LISTSIZE; j++)
 		{
-			if (strcmp(lastname[j], minnames) == -1)
+			if (strcmp(lastname[j], minname) == -1)
 			{
 				minidx = j;
-				strcpy(minnames, lastname[j]);
+				strcpy(minname, lastname[j]);
 			}
 		}
 
-		//Last Names
-		strcpy(tempnames, lastname[idx]);
-		strcpy(lastname[idx], minnames);
-		strcpy(lastname[minidx], tempnames);
+		//Last Name
+		strcpy(tempname, lastname[idx]);
+		strcpy(lastname[idx], minname);
+		strcpy(lastname[minidx], tempname);
 
-		//First Names
-		strcpy(tempnames, firstname[idx]);
+		//First Name
+		strcpy(tempname, firstname[idx]);
 		strcpy(firstname[idx], firstname[minidx]);
-		strcpy(firstname[minidx], tempnames);
+		strcpy(firstname[minidx], tempname);
 
 		//Days of Rental
 		tempnum = daysofrental[idx];
@@ -113,24 +109,18 @@ int main()
 		tempnum = balancedue[idx];
 		balancedue[idx] = balancedue[minidx];
 		balancedue[minidx] = tempnum;
-
 	}
 
 	for (int idx = 0; idx < LISTSIZE; idx++)
 	{
-		total+= balancedue[idx];
+		total += balancedue[idx];
 	}
 
-	rentalcount = 0;
-	rentalcountcout = 0;
-
 	//Output
-	//Sorted
+	system("cls");
 
-	system ("cls");
-	cout << "Output to Console (1) or Disk File (2)? :      ";
+	cout << "Output to Console (1) or Disk File (2)?:   ";
 	cin >> choice;
-
 	if (choice == 1)
 	{
 		system("cls");
@@ -138,44 +128,40 @@ int main()
 	}
 	else
 	{
-		cout << "Which Drive: A, B, C, D, E, or F?       ";
+		cout << "which drive: A, B, C, D, E, or F?    ";
 		cin >> drive;
-		
 		strcpy(disk_file, drive);
 		strcat(disk_file, ":");
 
-		cout << "Enter a results file name:     ";
+		cout << "Enter a Results File Name:   ";
 		cin >> file;
-
 		strcat(disk_file, file);
 		strcat(disk_file, ".txt");
-
 		outfile.open(disk_file);
 	}
 	outfile << setiosflags(ios::showpoint | ios::fixed) << setprecision(2);
 
-	
-	outfile << heading[0] << " " << heading[1] << " " << heading[2] << " " << heading[3] << endl;
+	outfile << left << setw(25) << heading[0] << left << setw(25) << heading[1] << left << setw(25) << heading[2] << left << setw(25) << heading[3] << endl;
 
-	for (int idx = 0; idx = LISTSIZE; idx++)
+	for (int a = 0; a < LISTSIZE; a++)
 	{
-		outfile << lastname[idx] << " " << firstname[idx] << " " << daysofrental[idx] << " " << balancedue[idx] << endl;
+		outfile << left << setw(25) << lastname[a] << left << setw(25) << firstname[a] << left << setw(25) << daysofrental[a] << left << setw(25) << balancedue[a] << endl;
 	}
 
 	outfile << endl << endl;
-	outfile << "Total Balance Due: " << total << endl;
+	outfile << setw(15) << setprecision(2) << showpoint << fixed << "Total Balance Due: $ " << total << endl;
+	outfile << endl;
 
 	outfile << "Customer(s) with the Highest Number of Rental Days: ";
-	
+
 	highestrental = daysofrental[0];
 
-	for (int idx = 0; idx = LISTSIZE; idx++)
+	for (int idx = 0; idx < LISTSIZE; idx++)
 	{
 		if (daysofrental[idx] > highestrental)
-		{
 			highestrental = daysofrental[idx];
-		}
 	}
+
 
 	for (int idx = 0; idx < LISTSIZE; idx++)
 	{
@@ -189,12 +175,10 @@ int main()
 		{
 			if (rentalcountcout < rentalcount)
 			{
-				outfile << lastname[idx] << " " << firstname[idx] << ", ";
+				outfile << firstname[idx] << " " << lastname[idx] << ", " << endl;
 			}
 			else
-			{
-				outfile << lastname[idx] << " " << firstname[idx];
-			}
+				outfile << firstname[idx] << " " << lastname[idx] << endl;
 			rentalcountcout++;
 		}
 	}
@@ -202,29 +186,26 @@ int main()
 	outfile << endl;
 
 	outfile << "Customer(s) with the Highest Balance Due: ";
-
-	highestbalance = balancedue[0];
+	highbalance = balancedue[0];
 
 	for (int idx = 0; idx < LISTSIZE; idx++)
 	{
-		if (balancedue[idx] > highestbalance)
-		{
-			highestbalance = balancedue[idx];
-		}
+		if (balancedue[idx] > highbalance)
+			highbalance = balancedue[idx];
 	}
 
 	for (int idx = 0; idx < LISTSIZE; idx++)
 	{
-		if (balancedue[idx] == highestbalance)
-		{
-			outfile << lastname[idx] << " " << firstname[idx] << ", ";
-		}
+		if (balancedue[idx] == highbalance)
+			outfile << firstname[idx] << " " << lastname[idx] << ", " << endl;
 	}
 	outfile << endl;
 
+
 	outfile.close();
 	cout << endl << endl;
-	
+
 	system("PAUSE");
 	return 0;
 }
+
